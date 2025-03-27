@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1a1a1a;
+            font-family: Arial, sans-serif;
+        }
+        #game-container {
+            text-align: center;
+        }
+        #entry-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        #logo {
+            width: 200px;
+            height: 200px;
+        }
+        #start-btn {
+            padding: 15px 40px;
+            font-size: 24px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        #start-btn:hover {
+            transform: scale(1.1);
+        }
+        #game-canvas {
+            display: none;
+            border: 2px solid #4CAF50;
+        }
+        .hint-text {
+            color: #4CAF50;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="entry-page">
+            <style>
+            @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+            .logo-container {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+            .game-title {
+                font-family: 'Press Start 2P', cursive;
+                font-size: 48px;
+                color: #4CAF50;
+                text-shadow: 4px 4px #1a1a1a;
+            }
+            .pixel-apple {
+                width: 40px;
+                height: 40px;
+                position: relative;
+                background: red;
+                box-shadow: 
+                    0 -8px 0 0 #4CAF50,
+                    8px -8px 0 0 #4CAF50;
+            }
+            .pixel-apple::before {
+                content: '';
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background: #1a1a1a;
+                right: 8px;
+                top: 8px;
+            }
+        </style>
+        <div class="logo-container">
+            <div class="game-title">SNAKE</div>
+            <div class="pixel-apple"></div>
+        </div>
+            <button id="start-btn">Start Game</button>
+        </div>
+        <canvas id="game-canvas" width="600" height="400"></canvas>
+        <div class="hint-text" style="display: none;">Hint: use arrow keys</div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
