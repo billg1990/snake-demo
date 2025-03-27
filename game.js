@@ -2,7 +2,7 @@ class SnakeGame {
     constructor() {
         this.canvas = document.getElementById('game-canvas');
         this.ctx = this.canvas.getContext('2d');
-        this.gridSize = 20;
+        this.gridSize = Math.floor(this.canvas.width / 30); // Adjust grid size based on canvas width
         this.snake = [
             { x: 15, y: 10 },
             { x: 14, y: 10 },
@@ -21,12 +21,52 @@ class SnakeGame {
     setupEventListeners() {
         document.getElementById('start-btn').addEventListener('click', () => this.startGame());
         document.addEventListener('keydown', (e) => this.handleKeyPress(e));
+        
+        // Touch controls
+        let touchStartX = 0;
+        let touchStartY = 0;
+        
+        this.canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+        
+        this.canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        });
+        
+        this.canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (deltaX > 0 && this.direction !== 'left') {
+                    this.direction = 'right';
+                } else if (deltaX < 0 && this.direction !== 'right') {
+                    this.direction = 'left';
+                }
+            } else {
+                if (deltaY > 0 && this.direction !== 'up') {
+                    this.direction = 'down';
+                } else if (deltaY < 0 && this.direction !== 'down') {
+                    this.direction = 'up';
+                }
+            }
+        });
     }
 
     startGame() {
         document.getElementById('entry-page').style.display = 'none';
         this.canvas.style.display = 'block';
-        document.querySelector('.hint-text').style.display = 'block';
+        const hintText = document.querySelector('.hint-text');
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        hintText.textContent = isMobile ? 'Hint: swipe to change direction' : 'Hint: use arrow keys';
+        hintText.style.display = 'block';
         this.gameLoop = setInterval(() => this.update(), this.speed);
     }
 
